@@ -28,4 +28,8 @@ router.post(
 //get all users profile  authMiddleware
 router.get('/profile', authMiddleware.authUser, userController.getUsersProfile);
 
+//logout a user
+router.post('/logout', authMiddleware.authUser, userController.logoutUser);
+
 module.exports = router;
+ 

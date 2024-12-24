@@ -109,3 +109,59 @@ Success response will include the user object and an authentication token:
 - Invalid credentials will return a 401 Unauthorized response
 - Successful login provides a JWT token for authentication
 - Password is verified against the hashed version stored in the database
+
+## Get User Profile Endpoint
+
+### `GET /user/profile`
+
+### Description
+
+- Retrieves the profile information of the currently authenticated user.
+
+### HTTP Method
+
+`GET`
+
+### Authentication
+
+- Requires a valid JWT token in the Authorization header or cookies
+
+### Example Response
+
+- `user` (object):
+  - `fullname` (object):
+    - `firstname` (string): User's first name (minimum 3 characters).
+    - `lastname` (string): User's last name (minimum 3 characters).
+- `email` (string): User's email address (must be a valid email).
+
+- `Notes`
+- Requires authentication via JWT token
+- Returns 401 Unauthorized if no valid token is provided
+
+## Logout User Endpoint
+
+### POST /user/logout
+
+### Description
+- Logsout the current user and blacklist the tocken provided in cookie or headers their JWT token
+
+### HTTP Method
+
+`POST`
+
+### Authentication
+- Requires a valid JWT token in the Authorization header or cookies
+
+### Example Response
+
+```json
+{
+  "message": "Logout successfully"
+}
+```
+
+- `Notes`
+- Clears the authentication cookie
+- Blacklists the current token
+- Token will no longer be valid for future requests
+- Returns 401 Unauthorized if no valid token is provided

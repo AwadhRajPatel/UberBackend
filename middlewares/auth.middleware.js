@@ -7,6 +7,13 @@ module.exports.authUser =  async (req, res, next) => {
     if (!token) {
         return res.status(401).json({message: "Unauthorized"});
     }
+
+    //Logout token and message show if token is blacklisted
+    const isBlacklisted = await userModel.findOne({token: token});
+    if (isBlacklisted) {
+        return res.status(401).json({message: "Unauthorized"}); 
+    }
+
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const user = await userModel.findById(decoded._id);
@@ -17,4 +24,4 @@ module.exports.authUser =  async (req, res, next) => {
     } catch (error) {
         return res.status(401).json({message: "Unauthorized"});
     }
-}
+} 
