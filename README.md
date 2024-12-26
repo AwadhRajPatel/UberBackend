@@ -165,3 +165,54 @@ Success response will include the user object and an authentication token:
 - Blacklists the current token
 - Token will no longer be valid for future requests
 - Returns 401 Unauthorized if no valid token is provided
+
+## Captain API Documentation
+
+### Register Captain Endpoint
+
+### `POST /captains/register`
+
+### Description
+- Registers a new captain by creating a captain account with the provided information.
+
+### HTTP Method
+`POST`
+
+### Request Body
+The request body should be in JSON format and include the following fields:
+
+- `captain` (object);
+  - `fullname` (object):
+   - `firstname` (string, required): Captain's first name (minimum 3 characters)
+   - `lastname` (string, optional): Captain's last name
+- `email` (string, required): Captain's email address (must be valid email)
+- `password` (string, required): Captain's password (minimum 6 characters)
+- `vehicle` (object):
+  - `color` (string, required): Vehicle color (minimum 3 characters)
+  - `plate` (string, required): Vehicle plate number (minimum 3 characters)
+  - `capacity` (number, required): Vehicle passenger capacity (minimum 1)
+  - `vehicleType` (string, required): Type of vehicle (must be 'car', 'motorcycle', or 'auto')
+
+### Example Request
+```json
+{
+  "fullname": {
+    "firstname": "string", // required, min 3 characters
+    "lastname": "string"  // optional
+  }, 
+  "email": "string", // required, valid email format
+  "password": "string", // required, min 6 characters
+  "vehicle": {
+    "color": "string", // required, min 3 characters
+    "plate": "string", // required, min 3 characters
+    "capacity": 1, // required, min 1
+    "vehicleType": "car" // required, one of: car, motorcycle, auto
+  }
+}
+```
+- `Notes`
+- Password is automatically hashed before storage
+ - JWT token is generated upon successful registration
+ -  Email must be unique in the system
+- Captain status is set to 'inactive' by default
+ -  All vehicle information is required and validated
