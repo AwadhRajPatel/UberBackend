@@ -216,3 +216,92 @@ The request body should be in JSON format and include the following fields:
  -  Email must be unique in the system
 - Captain status is set to 'inactive' by default
  -  All vehicle information is required and validated
+
+### Login Captain Endpoint
+
+### `POST /captains/login`
+
+### Description
+- Authenticates a captain and provides a JWT token for subsequent requests.
+
+### HTTP Method
+`POST`
+
+### Request Body
+```json
+{
+  "email": "string", // required, valid email format
+  "password": "string" // required, min 6 characters
+}
+```
+### Get Captain Profile Endpoint
+
+### GET /captains/profile
+
+## Description
+ - Retrieves the profile information of the authenticated captain.
+
+### HTTP Method
+`GET`
+
+### Authentication
+ - Requires valid JWT token in Authorization header or cookies
+
+### Example Response
+
+Success response will include the captain object and an authentication token:
+
+- `captain` (object):
+  - `fullname` (object):
+    - `firstname` (string): Captain's first name (minimum 3 characters).
+    - `lastname` (string): Captain's last name (minimum 3 characters).
+  - `email` (string): Captain's email address (must be a valid email).
+  - `vehicle` (object):
+    - `color` (string): Vehicle color (minimum 3 characters).
+    - `plate` (string): Vehicle plate number (minimum 3 characters).
+    - `capacity` (number): Vehicle passenger capacity (minimum 1).
+    - `vehicleType` (string): Type of vehicle (must be 'car', 'motorcycle', or 'auto').
+  - `status` (string): Captain's status.
+
+```json
+{
+  "fullname": {
+    "firstname": "string",
+    "lastname": "string"
+  },
+  "email": "string",
+  "vehicle": {
+    "color": "string",
+    "plate": "string",
+    "capacity": 1,
+    "vehicleType": "string"
+  },
+  "status": "string"
+}
+```
+
+### Logout Captain Endpoint
+
+## GET /captains/logout
+
+## Description
+ - Logs out the captain and invalidates their JWT token
+
+### HTTP Method
+`GET`
+
+### Authentication
+ - Requires valid JWT token in Authorization header or cookies
+
+## Example Response
+
+```json
+{
+  "message": "Logout successfully"
+}
+```
+- `Notes`
+   - Clears authentication cookie
+- Blacklists current token
+  - Token becomes invalid for future requests
+- Returns 401 if no valid token provided
